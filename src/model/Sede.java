@@ -21,6 +21,13 @@ public class Sede {
     private String comune;
     private boolean open;
 
+    public Sede(String nome, String indirizzo, String comune, boolean open) {
+        this.nome = nome;
+        this.indirizzo = indirizzo;
+        this.comune = comune;
+        this.open = open;
+    }
+
     public static Sede fromResultSet(ResultSet rs) throws SQLException {
         return new Sede(rs.getInt("id"),
                 rs.getString("nome"),

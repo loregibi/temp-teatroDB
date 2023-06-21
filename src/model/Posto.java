@@ -19,6 +19,11 @@ public class Posto {
     private int fila;
     private int numero;
 
+    public Posto(int fila, int numero) {
+        this.fila = fila;
+        this.numero = numero;
+    }
+
     public static Posto fromResultSet(ResultSet rs) throws SQLException {
         return new Posto(rs.getInt("id"),
                 rs.getInt("fila"),

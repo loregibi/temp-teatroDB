@@ -14,12 +14,12 @@ public class PostoDaoSql implements Dao<Posto> {
 
     @Override
     public boolean insert(Posto posto) throws SQLException {
-        String query = "INSERT INTO posto (fila,numero) VALUES (?,?);";
+        String query = "INSERT INTO teatro.posto (fila,numero) VALUES (?,?);";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query)) {
-            ps.setInt(2, posto.getFila());
-            ps.setInt(3, posto.getNumero());
+            ps.setInt(1, posto.getFila());
+            ps.setInt(2, posto.getNumero());
             int insertedCount = ps.executeUpdate();
 
             return insertedCount > 0;
@@ -28,13 +28,13 @@ public class PostoDaoSql implements Dao<Posto> {
 
     @Override
     public boolean update(Posto posto) throws SQLException {
-        String query = "UPDATE posto SET fila = ?, numero= ? WHERE id = ?;";
+        String query = "UPDATE teatro.posto SET fila = ?, numero= ? WHERE id = ?;";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query)) {
-            ps.setInt(1, posto.getId());
-            ps.setInt(2, posto.getFila());
-            ps.setInt(3, posto.getNumero());
+            ps.setInt(3, posto.getId());
+            ps.setInt(1, posto.getFila());
+            ps.setInt(2, posto.getNumero());
             int updatedCount = ps.executeUpdate();
             return updatedCount > 0;
 
@@ -43,7 +43,7 @@ public class PostoDaoSql implements Dao<Posto> {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        String query = "DELETE FROM posto WHERE id = ?;";
+        String query = "DELETE FROM teatro.posto WHERE id = ?;";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query)) {
@@ -56,7 +56,7 @@ public class PostoDaoSql implements Dao<Posto> {
 
     @Override
     public Optional<Posto> get(int id) throws SQLException {
-        String query = "SELECT * FROM posto WHERE id = ?;";
+        String query = "SELECT * FROM teatro.posto WHERE id = ?;";
 
         Optional<Posto> posto = Optional.empty();
 
@@ -74,7 +74,7 @@ public class PostoDaoSql implements Dao<Posto> {
 
     @Override
     public List<Posto> getAll() throws SQLException {
-        String query = "SELECT * FROM posto;";
+        String query = "SELECT * FROM teatro.posto;";
 
         List<Posto> posti = new ArrayList<>();
 

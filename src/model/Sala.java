@@ -19,6 +19,10 @@ public class Sala {
     private int id;
     private String nome;
 
+    public Sala(String nome) {
+        this.nome = nome;
+    }
+
     public static Sala fromResultSet(ResultSet rs) throws SQLException {
         return new Sala(rs.getInt("id"),
                 rs.getString("nome"));

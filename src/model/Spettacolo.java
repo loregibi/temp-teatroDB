@@ -26,6 +26,14 @@ public class Spettacolo {
     private String genere;
     private float prezzo;
 
+    public Spettacolo(String nome, LocalDateTime orario, int durata, String genere, float prezzo) {
+        this.nome = nome;
+        this.orario = orario;
+        this.durata = durata;
+        this.genere = genere;
+        this.prezzo = prezzo;
+    }
+
     public static Spettacolo fromResultSet(ResultSet rs) throws SQLException {
         return new Spettacolo(rs.getInt("id"),
                 rs.getString("nome"),

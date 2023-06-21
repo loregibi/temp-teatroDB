@@ -22,6 +22,14 @@ public class Utente {
     private String telefono;
     private String indirizzo;
 
+    public Utente(String nome, String cognome, String mail, String telefono, String indirizzo) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.mail = mail;
+        this.telefono = telefono;
+        this.indirizzo = indirizzo;
+    }
+
     public static Utente fromResultSet(ResultSet rs) throws SQLException {
         return new Utente(rs.getInt("id"),
                 rs.getString("nome"),
