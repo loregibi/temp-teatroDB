@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SpettacoloDaoSql implements Dao<Spettacolo> {
+public class SpettacoloDaoSql implements SpettacoloDao {
 
     @Override
     public boolean insert(Spettacolo spettacolo) throws SQLException {
@@ -91,5 +91,17 @@ public class SpettacoloDaoSql implements Dao<Spettacolo> {
             while (rs.next()) spettacoli.add(Spettacolo.fromResultSet(rs));
         }
         return spettacoli;
+    }
+
+    @Override
+    public int getIdByNome(String nome) throws SQLException {
+        String query = "SELECT * FROM teatro.spettacolo WHERE spettacolo.nome = '" + nome + "'";
+        try (ConnectionHandler ch = ConnectionHandler.getInstance();
+             PreparedStatement ps = ch.getPreparedStatement(query);
+             ResultSet rs = ps.executeQuery())
+        {
+            rs.next();
+            return rs.getInt("id");
+        }
     }
 }

@@ -16,12 +16,12 @@ public class TicketDaoSql implements Dao<Ticket> {
 
     @Override
     public boolean insert(Ticket ticket) throws SQLException {
-        String query = "INSERT INTO teatro.ticket (data) VALUES (?);";
+        String query = "INSERT INTO teatro.ticket (timestamp) VALUES (?);";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query))
         {
-            ps.setString(1, ticket.getData().toString());
+            ps.setString(1, ticket.getTimestamp().toString());
             int insertedCount = ps.executeUpdate();
 
             return insertedCount > 0;
@@ -30,13 +30,13 @@ public class TicketDaoSql implements Dao<Ticket> {
 
     @Override
     public boolean update(Ticket ticket) throws SQLException {
-        String query = "UPDATE teatro.ticket SET data=? WHERE id = ?;";
+        String query = "UPDATE teatro.ticket SET timestamp=? WHERE id = ?;";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query))
         {
             ps.setInt(2, ticket.getId());
-            ps.setString(1, ticket.getData().toString());
+            ps.setString(1, ticket.getTimestamp().toString());
             int updatedCount = ps.executeUpdate();
             return updatedCount > 0;
         }

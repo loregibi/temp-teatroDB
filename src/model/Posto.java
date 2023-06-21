@@ -25,7 +25,7 @@ public class Posto {
     }
 
     public static Posto fromResultSet(ResultSet rs) throws SQLException {
-        return new Posto(rs.getInt("id"),
+        return new Posto(rs.getInt("id_posto"),
                 rs.getInt("fila"),
                 rs.getInt("numero"));
     }

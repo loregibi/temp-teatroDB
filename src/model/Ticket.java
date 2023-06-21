@@ -20,14 +20,14 @@ import java.util.Calendar;
 public class Ticket {
 
     private int id;
-    private LocalDateTime data;
+    private LocalDateTime timestamp;
 
-    public Ticket(LocalDateTime data) {
-        this.data = data;
+    public Ticket(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public static Ticket fromResultSet(ResultSet rs) throws SQLException {
         return new Ticket(rs.getInt("id"),
-                 LocalDateTime.parse(rs.getString("data")));
+                 LocalDateTime.parse(rs.getString("timestamp")));
     }
 }

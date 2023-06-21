@@ -21,12 +21,12 @@ public class Spettacolo {
 
     private int id;
     private String nome;
-    private LocalDateTime orario;
+    private String orario;
     private int durata;
     private String genere;
     private float prezzo;
 
-    public Spettacolo(String nome, LocalDateTime orario, int durata, String genere, float prezzo) {
+    public Spettacolo(String nome, String  orario, int durata, String genere, float prezzo) {
         this.nome = nome;
         this.orario = orario;
         this.durata = durata;
@@ -37,7 +37,7 @@ public class Spettacolo {
     public static Spettacolo fromResultSet(ResultSet rs) throws SQLException {
         return new Spettacolo(rs.getInt("id"),
                 rs.getString("nome"),
-                LocalDateTime.parse(rs.getString("orario")),
+                rs.getString("orario"),
                 rs.getInt("durata"),
                 rs.getString("genere"),
                 rs.getFloat("prezzo"));

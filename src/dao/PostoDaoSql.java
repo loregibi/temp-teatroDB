@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PostoDaoSql implements Dao<Posto> {
+public class PostoDaoSql implements PostoDao{
 
     @Override
     public boolean insert(Posto posto) throws SQLException {
@@ -87,4 +87,15 @@ public class PostoDaoSql implements Dao<Posto> {
         return posti;
     }
 
+    @Override
+    public int getPostoByFilaENumero(int fila, int numero) throws SQLException {
+        String query = "SELECT * FROM teatro.posto WHERE posto.fila = '" + fila + "'"+ " And posto.numero = '" + numero + "'";
+        try (ConnectionHandler ch = ConnectionHandler.getInstance();
+             PreparedStatement ps = ch.getPreparedStatement(query);
+             ResultSet rs = ps.executeQuery())
+        {
+            rs.next();
+            return rs.getInt("id_posto");
+        }
+    }
 }

@@ -58,14 +58,14 @@ public class Main {
             switch (choose) {
                 case 1: teatro.inserisciUtente();
                     break;
-                case 2: teatro.prenotaSpettacolo();
+                case 2: teatro.prenotaSpettacolo(1);
                     break;
                 case 3:
                     break;
                 case 4:
                     break;
             }
-        } while(choose == 5);
+        } while(choose != 5);
 
 
 

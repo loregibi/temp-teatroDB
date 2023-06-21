@@ -1,9 +1,15 @@
+import connection_handler.ConnectionHandler;
 import dao.*;
 import model.Posto;
 import model.Spettacolo;
+import model.Ticket;
 import model.Utente;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Teatro {
@@ -33,11 +39,43 @@ public class Teatro {
         utenteDaoSql.insert(utente);
     }
 
-    public boolean prenotaSpettacolo() throws SQLException {
-        List<Spettacolo> spettacoli = spettacoloDaoSql.getAll();
-        Map<Spettacolo, Set<Posto>> postiInSpettacolo = new HashMap<>();
+    public void prenotaSpettacolo(int idUtente) throws SQLException {
 
-        return false;
+        List<Spettacolo> spettacoli = spettacoloDaoSql.getAll();
+        ConnectionHandler connectionHandler = ConnectionHandler.getInstance();
+        System.out.println("Lista spettacoli: ");
+        int count = 1;
+        for (Spettacolo spettacolo : spettacoli) {
+            System.out.println(count + ") " +  spettacolo.getNome());
+            count++;
+        }
+        System.out.println("Inserisci il nome dello spettacolo: ");
+        Scanner input = new Scanner(System.in);
+        String spett = input.nextLine();
+
+        PreparedStatement preparedStatement = connectionHandler.getPreparedStatement("Select id_posto,fila,numero  " +
+                "From teatro.spettacolo sp " +
+                "Join teatro.sala sa ON sp.id_sala = sa.id " +
+                "Join teatro.posto p On p.id_sala=sa.id " +
+                "Where sp.nome= '" + spett + "'");
+        ResultSet rs = preparedStatement.executeQuery();
+        System.out.println("Lista posti per lo spettacolo " + spett + " : ");
+        while (rs.next()){
+            System.out.println(Posto.fromResultSet(rs));
+        }
+        System.out.println("Inserisci la fila e il numero del posto da selezionare: ");
+        Scanner input1= new Scanner(System.in);
+        System.out.print("Fila: ");
+        int fila = input1.nextInt();
+        System.out.print("Numero: ");
+        int numero = input1.nextInt();
+
+        int idSpettacolo = spettacoloDaoSql.getIdByNome(spett);
+        int idPosto = postoDaoSql.getPostoByFilaENumero(fila,numero);
+
+        Ticket ticket = new Ticket(LocalDateTime.now());
+
+        ticketDaoSql.insert(ticket);
     }
 
 
