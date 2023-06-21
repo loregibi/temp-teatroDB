@@ -5,6 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 @Setter
@@ -16,8 +21,17 @@ public class Spettacolo {
 
     private int id;
     private String nome;
-    private Date orario;
+    private LocalDateTime orario;
     private int durata;
     private String genere;
     private float prezzo;
+
+    public static Spettacolo fromResultSet(ResultSet rs) throws SQLException {
+        return new Spettacolo(rs.getInt("id"),
+                rs.getString("nome"),
+                LocalDateTime.parse(rs.getString("orario")),
+                rs.getInt("durata"),
+                rs.getString("genere"),
+                rs.getFloat("prezzo"));
+    }
 }

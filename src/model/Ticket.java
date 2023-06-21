@@ -5,7 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 
 @Setter
 @Getter
@@ -15,5 +20,10 @@ import java.time.LocalDateTime;
 public class Ticket {
 
     private int id;
-    private LocalDateTime timeStamp;
+    private LocalDateTime data;
+
+    public static Ticket fromResultSet(ResultSet rs) throws SQLException {
+        return new Ticket(rs.getInt("id"),
+                 LocalDateTime.parse(rs.getString("data")));
+    }
 }

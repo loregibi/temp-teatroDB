@@ -67,7 +67,7 @@ public class ConnectionHandler implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws SQLException {
         if(connection != null && !connection.isClosed()){
             connection.close();
             connection = null;

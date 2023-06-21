@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 @Setter
 @Getter
 @ToString
@@ -18,4 +21,13 @@ public class Utente {
     private String mail;
     private String telefono;
     private String indirizzo;
+
+    public static Utente fromResultSet(ResultSet rs) throws SQLException {
+        return new Utente(rs.getInt("id"),
+                rs.getString("nome"),
+                rs.getString("cognome"),
+                rs.getString("mail"),
+                rs.getString("telefono"),
+                rs.getString("indirizzo"));
+    }
 }

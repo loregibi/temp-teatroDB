@@ -1,28 +1,29 @@
 package dao;
 
 import connection_handler.ConnectionHandler;
-import dao.Dao;
-import model.Sala;
+import model.Posto;
+import model.Sede;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SalaDaoSql implements Dao<Sala> {
+public class SedeDaoSql implements Dao<Sede> {
 
     @Override
-    public boolean insert(Sala sala) throws SQLException {
-        String query = "INSERT INTO sala (nome) VALUES (?);";
+    public boolean insert(Sede sede) throws SQLException {
+        String query = "INSERT INTO sede (nome,indirizzo,comune,open) VALUES (?,?,?,?);";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
-                    PreparedStatement ps = ch.getPreparedStatement(query))
+             PreparedStatement ps = ch.getPreparedStatement(query))
         {
-            ps.setString(2, sala.getNome());
+            ps.setString(2, sede.getNome());
+            ps.setString(3, sede.getIndirizzo());
+            ps.setString(4, sede.getComune());
+            ps.setBoolean(5, sede.isOpen());
             int insertedCount = ps.executeUpdate();
 
             return insertedCount > 0;
@@ -30,14 +31,17 @@ public class SalaDaoSql implements Dao<Sala> {
     }
 
     @Override
-    public boolean update(Sala sala) throws SQLException {
-        String query = "UPDATE sala SET name = ? WHERE id = ?;";
+    public boolean update(Sede sede) throws SQLException {
+        String query = "UPDATE sede SET nome = ?, indirizzo= ?, comune=?, open=? WHERE id = ?;";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query))
         {
-            ps.setString(2, sala.getNome());
-            ps.setInt(1, sala.getId());
+            ps.setInt(1, sede.getId());
+            ps.setString(2, sede.getNome());
+            ps.setString(3, sede.getIndirizzo());
+            ps.setString(4, sede.getComune());
+            ps.setBoolean(5, sede.isOpen());
             int updatedCount = ps.executeUpdate();
             return updatedCount > 0;
 
@@ -46,7 +50,7 @@ public class SalaDaoSql implements Dao<Sala> {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        String query = "DELETE FROM sala WHERE id = ?;";
+        String query = "DELETE FROM sede WHERE id = ?;";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query))
@@ -59,40 +63,40 @@ public class SalaDaoSql implements Dao<Sala> {
     }
 
     @Override
-    public Optional<Sala> get(int id) throws SQLException {
-        String query = "SELECT * FROM sala WHERE id = ?;";
+    public Optional<Sede> get(int id) throws SQLException {
+        String query = "SELECT * FROM sede WHERE id = ?;";
 
-        Optional<Sala> sala = Optional.empty();
+        Optional<Sede> sede = Optional.empty();
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query))
         {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) sala = Optional.of(Sala.fromResultSet(rs));
+            if (rs.next()) sede = Optional.of(Sede.fromResultSet(rs));
 
         }
 
-        return sala;
+        return sede;
     }
 
 
 
 
     @Override
-    public List<Sala> getAll() throws SQLException {
-        String query = "SELECT * FROM sala;";
+    public List<Sede> getAll() throws SQLException {
+        String query = "SELECT * FROM sede;";
 
-        List<Sala> sale = new ArrayList<>();
+        List<Sede> sedi = new ArrayList<>();
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query);
              ResultSet rs = ps.executeQuery())
         {
-            while (rs.next()) sale.add(Sala.fromResultSet(rs));
+            while (rs.next()) sedi.add(Sede.fromResultSet(rs));
         }
 
-        return sale;
+        return sedi;
     }
 
 }
