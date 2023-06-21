@@ -73,7 +73,7 @@ public class Teatro {
         int idSpettacolo = spettacoloDaoSql.getIdByNome(spett);
         int idPosto = postoDaoSql.getPostoByFilaENumero(fila,numero);
 
-        Ticket ticket = new Ticket(LocalDateTime.now());
+        Ticket ticket = new Ticket(LocalDateTime.now().toString(),idPosto,idSpettacolo,idUtente);
 
         ticketDaoSql.insert(ticket);
     }

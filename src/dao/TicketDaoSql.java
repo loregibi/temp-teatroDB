@@ -16,12 +16,15 @@ public class TicketDaoSql implements Dao<Ticket> {
 
     @Override
     public boolean insert(Ticket ticket) throws SQLException {
-        String query = "INSERT INTO teatro.ticket (timestamp) VALUES (?);";
+        String query = "INSERT INTO teatro.ticket (timestamp,id_utente,id_posto,id_spettacolo) VALUES (?,?,?,?);";
 
         try (ConnectionHandler ch = ConnectionHandler.getInstance();
              PreparedStatement ps = ch.getPreparedStatement(query))
         {
             ps.setString(1, ticket.getTimestamp().toString());
+            ps.setInt(2, ticket.getIdUtente());
+            ps.setInt(3, ticket.getIdPosto());
+            ps.setInt(4, ticket.getIdSpettacolo());
             int insertedCount = ps.executeUpdate();
 
             return insertedCount > 0;
