@@ -1,6 +1,7 @@
 import connection_handler.ConnectionHandler;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
@@ -14,9 +15,28 @@ public class Main {
         // 1. Carico il driver
         Connection conn = connectionHandler.getConnection();
 
-        // 2. Carico il driver (non più necessario nelle nuove versioni
-        Class.forName(databaseDriver);
 
+        //1) Gli utenti devono potersi registrare inserendo i loro dati personali.
+
+        System.out.println("** Inserisci utente **");
+        Scanner input = new Scanner(System.in);
+        System.out.println("nome: ");
+        String nome =input.nextLine();
+        System.out.println("cognome: ");
+        System.out.println("mail: ");
+        System.out.println("telefono: ");
+        System.out.println("indirizzo: ");
+
+        PreparedStatement ps_insert_utenti = conn.prepareStatement("Insert utente");
+        //2) Gli utenti registrati devono poter prenotare dei posti disponibili in uno spettacolo,
+        //e il sistema deve calcolare il prezzo da pagare per l’utente.
+        //3)  L’utente  deve  poter  ricercare  gli  spettacoli  disponibili  inserendo  la  città  e
+        //una  data,  e facoltativamente un genere e un luogo specifico.
+        //4) Poter ricevere dal sistema dei suggerimenti sui prossimi spettacoli, in particolare deve
+        //ritornare tutti gli spettacoli del prossimo mese che hanno lo stesso genere degli ultimi 3 spettacoli visti.
+
+
+                /*
         // 3. Creo oggetto PreparedStatement, passando come parametro il template della Query
         PreparedStatement ps_all_impiegati = conn.prepareStatement("select id, nome from impiegati");
 
@@ -35,14 +55,16 @@ public class Main {
         ps_aggiorna_dipendente.executeUpdate();
         ps_aggiorna_dipendente.close();
 
-
+        */
         // Rilascio tutte le risorse aperte.
         try {
             connectionHandler.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        ps_all_impiegati.close();
-        rs.close();
+        //ps_all_impiegati.close();
+        //rs.close();
+
+
     }
 }
